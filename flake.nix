@@ -30,6 +30,14 @@
     in
     {
       packages.default = backend-project [ ];
-      hydraJobs = { inherit (self) packages; };
+      hydraJobs = { 
+        inherit (self) packages; 
+        runCommandHook = {
+          triggerCI = pkgs.writeScript "action" ''
+            #!${nixpkgs.runtimeShell}
+            ${nixpkgs.jq}/bin/jq . "$HYDRA_JSON"
+          '';
+        };
+      };
   });
 }
