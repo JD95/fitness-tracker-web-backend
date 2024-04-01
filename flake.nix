@@ -30,15 +30,5 @@
     in
     {
       packages.default = backend-project [ ];
-      hydraJobs = { 
-        inherit (self) packages; 
-        runCommandHook = {
-          triggerCI = nixpkgs.writeScript "action" ''
-            #!${nixpkgs.runtimeShell}
-            PROJECT=$(${nixpkgs.jq}/bin/jq '.project' "$HYDRA_JSON")
-            ${nixpkgs.curl}/bin/curl -X PUT 'localhost:3000/api/push?jobsets="$PROJECT:web-server-build"'
-          '';
-        };
-      };
   });
 }
