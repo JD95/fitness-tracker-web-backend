@@ -30,5 +30,6 @@
     in
     {
       packages.default = backend-project [ ];
+      hydraJobs = { inherit (self) packages; };
   });
 }
