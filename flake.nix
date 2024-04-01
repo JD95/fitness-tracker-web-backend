@@ -33,7 +33,7 @@
       hydraJobs = { 
         inherit (self) packages; 
         runCommandHook = {
-          triggerCI = pkgs.writeScript "action" ''
+          triggerCI = nixpkgs.writeScript "action" ''
             #!${nixpkgs.runtimeShell}
             ${nixpkgs.jq}/bin/jq . "$HYDRA_JSON"
           '';
