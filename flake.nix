@@ -35,7 +35,8 @@
         runCommandHook = {
           triggerCI = nixpkgs.writeScript "action" ''
             #!${nixpkgs.runtimeShell}
-            ${nixpkgs.jq}/bin/jq . "$HYDRA_JSON"
+            PROJECT=$(${nixpkgs.jq}/bin/jq '.project' "$HYDRA_JSON")
+            ${nixpkgs.curl}/bin/curl -X PUT 'localhost:3000/api/push?jobsets="$PROJECT:web-server-build"'
           '';
         };
       };
