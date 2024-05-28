@@ -9,35 +9,36 @@ module Lib
   )
 where
 
-import Data.Time.Clock (UTCTime(utctDay))
-import Data.Ord (comparing)
+import Control.Monad.IO.Class (MonadIO (liftIO))
 import Data.List (groupBy)
-import Control.Monad.IO.Class (MonadIO(liftIO))
 import Data.Maybe (fromMaybe)
-import Data.Proxy (Proxy(Proxy))
+import Data.Ord (comparing)
+import Data.Proxy (Proxy (Proxy))
+import Data.Time.Clock (UTCTime (utctDay))
 import qualified Database.SQLite.Simple as SQ
-import DbId (Id(Id, values))
-import Muscle (Muscle(Muscle))
+import DbId (Id (Id, values))
+import Muscle (Muscle (Muscle))
 import Network.Wai.Handler.Warp (run)
-import PrimaryMuscle (PrimaryMuscle(PrimaryMuscle))
+import PrimaryMuscle (PrimaryMuscle (PrimaryMuscle))
 import qualified Queries.Sqlite as S
 import Servant
-    ( Proxy(Proxy),
-      serve,
-      serveDirectoryWebApp,
-      type (:<|>)(..),
-      Capture,
-      JSON,
-      QueryParam,
-      Raw,
-      ReqBody,
-      type (:>),
-      Get,
-      Post,
-      Server )
-import Workout (Workout(Workout))
-import WorkoutSet (WorkoutSet(MkWorkoutSet, setWorkout, setDate))
-import Time ( Weeks(Weeks), sameDay )
+  ( Capture,
+    Get,
+    JSON,
+    Post,
+    Proxy (Proxy),
+    QueryParam,
+    Raw,
+    ReqBody,
+    Server,
+    serve,
+    serveDirectoryWebApp,
+    type (:<|>) (..),
+    type (:>),
+  )
+import Time (Weeks (Weeks), sameDay)
+import Workout (Workout (Workout))
+import WorkoutSet (WorkoutSet (MkWorkoutSet, setDate, setWorkout))
 
 type API =
   ("workouts" :> Get '[JSON] [Id Workout])
@@ -52,13 +53,13 @@ newtype Env = Env {db :: SQ.Connection}
 
 server :: Env -> Server API
 server (Env db) =
-  workouts :<|>
-  getMuscles :<|>
-  getPrimaryMuscles :<|>
-  getSetsForWorkout :<|>
-  getSets :<|>
-  postSets :<|>
-  static
+  workouts
+    :<|> getMuscles
+    :<|> getPrimaryMuscles
+    :<|> getSetsForWorkout
+    :<|> getSets
+    :<|> postSets
+    :<|> static
   where
     static = serveDirectoryWebApp "../frontend"
 
