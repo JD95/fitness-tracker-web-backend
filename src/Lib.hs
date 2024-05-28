@@ -61,7 +61,7 @@ server (Env db) =
     :<|> postSets
     :<|> static
   where
-    static = serveDirectoryWebApp "../frontend"
+    static = serveDirectoryWebApp "frontend"
 
     getMuscles = do
       muscles <- liftIO $ S.allMuscles db
