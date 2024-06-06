@@ -2,3 +2,4 @@
 %project=backend
 
 appschema 2024-06-06T02:11:57Z Jeffrey Dwyer <jeffreydwyer95@outlook.com> # Add schema for all backend objects.
+workouts [appschema] 2024-06-06T02:38:07Z Jeffrey Dwyer <jeffreydwyer95@outlook.com> # Creates table to track workouts.
