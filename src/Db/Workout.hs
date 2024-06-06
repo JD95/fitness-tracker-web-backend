@@ -22,7 +22,7 @@ type Columns =
 type Constraints =
   '["pk_workout" ::: 'PrimaryKey '["id"]]
 
-type Schema = "workout" ::: 'Table (Constraints :=> Columns)
+type Schema = "fitness_tracker.workout" ::: 'Table (Constraints :=> Columns)
 
 data Workout = Workout {id :: UUID, name :: Text}
   deriving stock (Show, GHC.Generic)
