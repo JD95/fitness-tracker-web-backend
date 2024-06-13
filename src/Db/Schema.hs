@@ -3,7 +3,15 @@
 
 module Db.Schema where
 
+import qualified Db.Set as Set
+import qualified Db.SetIntensity as SetIntensity
 import qualified Db.Workout as Workout
 import Squeal.PostgreSQL
 
-type Schema = '["fitness_tracker" ::: '[Workout.Schema]]
+type Schema =
+  '[ "fitness_tracker"
+       ::: '[ Workout.Schema,
+              Set.Schema,
+              SetIntensity.Schema
+            ]
+   ]

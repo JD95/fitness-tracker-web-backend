@@ -1,8 +1,8 @@
-{-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE TypeApplications #-}
 
 module Queries.Sqlite where
 
@@ -35,7 +35,7 @@ allWorkoutSets conn =
     |]
 
 newtype DbSet = DbSet (Int, Int, Int, Time, Int, Int)
-  deriving Show
+  deriving (Show)
 
 instance FromRow DbSet where
   fromRow = DbSet <$> fromRow

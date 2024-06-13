@@ -25,5 +25,5 @@ type Constraints =
 type Schema = "workout" ::: 'Table (Constraints :=> Columns)
 
 data Workout = Workout {id :: UUID, name :: Text}
-  deriving stock (Show, GHC.Generic)
+  deriving stock (Show, Eq, GHC.Generic)
   deriving anyclass (SOP.Generic, SOP.HasDatatypeInfo)
