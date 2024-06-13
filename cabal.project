@@ -1,0 +1,21 @@
+packages: .
+source-repository-package
+  type: git
+  location: https://github.com/well-typed/large-records.git
+  tag: 21bf268a9d078689e888e5eb47128235ce4f1a59
+  subdir: large-records
+source-repository-package
+  type: git
+  location: https://github.com/well-typed/large-records.git
+  tag: 21bf268a9d078689e888e5eb47128235ce4f1a59
+  subdir: large-generics
+source-repository-package
+  type: git
+  location: https://github.com/well-typed/large-records.git
+  tag: 21bf268a9d078689e888e5eb47128235ce4f1a59
+  subdir: large-anon
+source-repository-package
+  type: git
+  location: https://github.com/well-typed/large-records.git
+  tag: 21bf268a9d078689e888e5eb47128235ce4f1a59
+  subdir: typelet

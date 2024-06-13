@@ -1,4 +1,5 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE OverloadedLabels #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeOperators #-}
@@ -14,12 +15,16 @@ import Data.List (groupBy)
 import Data.Maybe (fromMaybe)
 import Data.Ord (comparing)
 import Data.Proxy (Proxy (Proxy))
+import Data.Record.Anon
+import Data.Record.Anon.Simple
 import Data.Time.Clock (UTCTime (utctDay))
 import qualified Database.SQLite.Simple as SQ
+import qualified Db.Workout as Db (Workout)
 import DbId (Id (Id, values))
 import Muscle (Muscle (Muscle))
 import Network.Wai.Handler.Warp (run)
 import PrimaryMuscle (PrimaryMuscle (PrimaryMuscle))
+import Queries
 import qualified Queries.Sqlite as S
 import Servant
   ( Capture,
@@ -90,6 +95,9 @@ server (Env db) =
     workouts = liftIO $ do
       ws <- S.allWorkouts db
       pure [Id i (Workout n) | (i, n) <- ws]
+
+workouts' :: (Monad m) => Record '[AllWorkouts m] -> m Db.Workout
+workouts' db = get #allWorkouts db
 
 data Config = Config
 
