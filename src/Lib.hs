@@ -1,4 +1,5 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE OverloadedLabels #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
@@ -96,7 +97,7 @@ server (Env db) =
       ws <- S.allWorkouts db
       pure [Id i (Workout n) | (i, n) <- ws]
 
-workouts' :: (Monad m) => Record '[AllWorkouts m] -> m Db.Workout
+workouts' :: (Monad m, RowHas (AllWorkouts m) r) => Record r -> m Db.Workout
 workouts' db = get #allWorkouts db
 
 data Config = Config
