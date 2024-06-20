@@ -12,13 +12,17 @@ import Control.Monad.IO.Class
 import Data.Text (Text)
 import Data.Time.Clock
 import Data.UUID
+import qualified Db.Muscle as Db (Muscle)
 import qualified Db.Schema as Db
 import qualified Db.Set as Db (Set)
 import qualified Db.SetIntensity as Db (PGsetintensity, SetIntensity (..))
 import qualified Db.Workout as Db (Workout)
 import GHC.Int
+import qualified Model.NewMuscle as Model (NewMuscle (..))
+import qualified Model.NewMuscle as NewMuscle
 import qualified Model.NewSet as Model (NewSet (..))
 import qualified Model.NewWorkout as Model (NewWorkout (..))
+import qualified Model.NewWorkout as NewWorkout
 import qualified Model.SetIntensity as Model (SetIntensity)
 import Squeal.PostgreSQL hiding (execute)
 import qualified Squeal.PostgreSQL as Squeal
@@ -122,9 +126,20 @@ previousSets =
 
 insertWorkout :: Statement Db.Schema Model.NewWorkout ()
 insertWorkout =
-  Manipulation (Model.name .* nilParams) genericRow $
+  Manipulation (NewWorkout.name .* nilParams) genericRow $
     insertInto_
       (#fitness_tracker ! #workout)
+      (Values_ values)
+  where
+    values =
+      Default `as` #id
+        :* Set (param @1) `as` #name
+
+insertMuscle :: Statement Db.Schema Model.NewMuscle ()
+insertMuscle =
+  Manipulation (NewMuscle.name .* nilParams) genericRow $
+    insertInto_
+      (#fitness_tracker ! #muscle)
       (Values_ values)
   where
     values =
@@ -139,3 +154,12 @@ allWorkouts =
           :* #workout ! #name `as` #name
       )
       (from $ table $ #fitness_tracker ! #workout)
+
+allMuscles :: Statement Db.Schema () Db.Muscle
+allMuscles =
+  query $
+    select_
+      ( #muscle ! #id `as` #id
+          :* #muscle ! #name `as` #name
+      )
+      (from $ table $ #fitness_tracker ! #muscle)
