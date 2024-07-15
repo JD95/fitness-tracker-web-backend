@@ -20,7 +20,10 @@ import qualified Db.Workout as Db (Workout)
 import GHC.Int
 import qualified Model.NewMuscle as Model (NewMuscle (..))
 import qualified Model.NewMuscle as NewMuscle
+import qualified Model.NewPrimaryMuscle as Model (NewPrimaryMuscle (..))
+import qualified Model.NewPrimaryMuscle as NewPrimaryMuscle
 import qualified Model.NewSet as Model (NewSet (..))
+import qualified Model.NewSet as NewSet
 import qualified Model.NewWorkout as Model (NewWorkout (..))
 import qualified Model.NewWorkout as NewWorkout
 import qualified Model.SetIntensity as Model (SetIntensity)
@@ -49,7 +52,7 @@ encodeNewSet ::
      ]
     Model.NewSet
 encodeNewSet =
-  Model.workout
+  NewSet.workout
     .* (encInt . Model.reps)
     .* Model.time
     .* Model.weight
@@ -73,6 +76,20 @@ insertSet = Manipulation encodeNewSet genericRow stmt
         :* Set (param @3) `as` #time
         :* Set (param @4) `as` #weight
         :* Set (param @5) `as` #intensity
+
+insertPrimaryMuscle :: Statement Db.Schema Model.NewPrimaryMuscle ()
+insertPrimaryMuscle = Manipulation enc genericRow stmt
+  where
+    enc = NewPrimaryMuscle.workout *. NewPrimaryMuscle.muscle
+    stmt =
+      insertInto_
+        (#fitness_tracker ! #primary_muscle)
+        (Values_ values)
+
+    values =
+      Default `as` #id
+        :* Set (param @1) `as` #workout
+        :* Set (param @2) `as` #muscle
 
 allSets :: Statement Db.Schema () Db.Set
 allSets =
