@@ -13,6 +13,7 @@ import Data.Text (Text)
 import Data.Time.Clock
 import Data.UUID
 import qualified Db.Muscle as Db (Muscle)
+import qualified Db.PrimaryMuscle as Db (PrimaryMuscle)
 import qualified Db.Schema as Db
 import qualified Db.Set as Db (Set)
 import qualified Db.SetIntensity as Db (PGsetintensity, SetIntensity (..))
@@ -76,6 +77,16 @@ insertSet = Manipulation encodeNewSet genericRow stmt
         :* Set (param @3) `as` #time
         :* Set (param @4) `as` #weight
         :* Set (param @5) `as` #intensity
+
+allPrimaryMuscles :: Statement Db.Schema () Db.PrimaryMuscle
+allPrimaryMuscles =
+  query $
+    select_
+      ( #primary_muscle ! #id `as` #id
+          :* #primary_muscle ! #workout `as` #workout
+          :* #primary_muscle ! #muscle `as` #muscle
+      )
+      (from $ table $ #fitness_tracker ! #primary_muscle)
 
 insertPrimaryMuscle :: Statement Db.Schema Model.NewPrimaryMuscle ()
 insertPrimaryMuscle = Manipulation enc genericRow stmt
