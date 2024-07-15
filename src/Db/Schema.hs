@@ -7,6 +7,7 @@ import qualified Db.Muscle as Muscle
 import qualified Db.Set as Set
 import qualified Db.SetIntensity as SetIntensity
 import qualified Db.Workout as Workout
+import qualified Db.PrimaryMuscle as PrimaryMuscle
 import Squeal.PostgreSQL
 
 type Schema =
@@ -14,6 +15,7 @@ type Schema =
        ::: '[ Workout.Schema,
               Set.Schema,
               SetIntensity.Schema,
-              Muscle.Schema
+              Muscle.Schema,
+              PrimaryMuscle.Schema,
             ]
    ]

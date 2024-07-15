@@ -9,3 +9,4 @@ table.workout.create [schema.fitness_tracker.create procedure.verify_table.creat
 enum.set_intensity.create [schema.fitness_tracker.create procedure.verify_enum.create] 2024-06-11T00:07:59Z Jeffrey Dwyer <jeffreydwyer95@outlook.com> # Creates enum to track set intensity.
 table.set.create [schema.fitness_tracker.create enum.set_intensity.create procedure.verify_enum.create] 2024-06-11T16:38:06Z Jeffrey Dwyer <jeffreydwyer95@outlook.com> # Creates set table.
 table.muscle.create [schema.fitness_tracker.create] 2024-06-20T18:15:01Z Jeffrey Dwyer <jeffreydwyer95@outlook.com> # Creates table to track muscles
+table.primary_muscle.create [procedure.verify_table.create table.workout.create table.muscle.create] 2024-07-15T18:09:37Z Jeffrey Dwyer <jeffreydwyer95@outlook.com> # Create the fitness_tracker.primary_muscle table
